@@ -54,8 +54,16 @@ export default class Sticky extends Component {
         distanceFromTop = -(eventSource.scrollTop + eventSource.offsetTop) + this.placeholder.offsetTop
     }
 
-    const placeholderClientRect = this.placeholder.getBoundingClientRect();
-    const contentClientRect = this.content.getBoundingClientRect();
+    let placeholderClientRect = { x: 0, y: 0, width: 0, height: 0 };
+    let contentClientRect = { x: 0, y: 0, width: 0, height: 0 };
+    
+    try {
+      placeholderClientRect = this.placeholder.getBoundingClientRect();
+      contentClientRect = this.content.getBoundingClientRect();
+    } catch (error){
+      console.error('Problem executing getBoundingClientRect on react-sticky');
+    }
+    
     const calculatedHeight = contentClientRect.height;
 
     const bottomDifference = distanceFromBottom - this.props.bottomOffset - calculatedHeight;

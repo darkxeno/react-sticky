@@ -43,12 +43,15 @@ export default class Container extends PureComponent {
       const { currentTarget } = evt;
 
       raf(() => {
-        this.framePending = false;      
+        this.framePending = false;
+        let top = 0;
+        let bottom = 0;      
         try {
-          const { top, bottom } = this.node.getBoundingClientRect();
-        } catch (error){
-          const top = 0;
-          const bottom = 0;
+          const bounds = this.node.getBoundingClientRect();
+          top = bounds.top;
+          bottom = bounds.bottom;
+        } catch (error) {
+          console.error('Problem executing getBoundingClientRect on react-sticky');
         }
 
         this.subscribers.forEach(handler => handler({
